@@ -36,8 +36,18 @@ def count_levels(lines):
     count = {}
     for letter in lines:
         part = letter.split()
+        if not part:
+            continue
         first_word = part[0]
         count[first_word] = count.get(first_word, 0) + 1
     return count
 lines = read_logs("app.log")
-print(count_levels(lines))
+count = count_levels(lines)
+
+def write_logs(filename, count):
+    with open(filename, "w", encoding="utf-8") as f:
+        for level, number in count.items():
+            f.write(f"{level}: {number}\n")
+
+
+write_logs("report.txt", count)
